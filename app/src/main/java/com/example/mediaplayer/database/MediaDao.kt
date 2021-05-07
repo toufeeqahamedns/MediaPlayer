@@ -16,4 +16,6 @@ interface MediaDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveMediaItem(mediaItem: MediaItem)
 
+    @Query("Select * from media_table where displayName like :searchText")
+    suspend fun searchMedia(searchText: String): List<MediaItem>
 }

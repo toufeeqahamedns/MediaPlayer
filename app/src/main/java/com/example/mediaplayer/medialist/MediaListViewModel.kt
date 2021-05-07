@@ -8,12 +8,9 @@ import android.database.ContentObserver
 import android.net.Uri
 import android.os.Handler
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.example.mediaplayer.repository.models.MediaItem
+import androidx.lifecycle.*
 import com.example.mediaplayer.repository.Repository
+import com.example.mediaplayer.repository.models.MediaItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -31,7 +28,11 @@ class MediaListViewModel(application: Application) : AndroidViewModel(applicatio
 
     private var contentObserver: ContentObserver? = null
 
-    val mediaItemList = repository.savedMedia
+    var mediaItemList = repository.savedMedia
+
+    private val _searchedMediaItemList = MutableLiveData<List<MediaItem>>()
+    val searchedMediaItemList: LiveData<List<MediaItem>>
+        get() = _searchedMediaItemList
 
     private val _status = MutableLiveData<MediaLoadingStatus>()
     val status: LiveData<MediaLoadingStatus>
@@ -55,6 +56,13 @@ class MediaListViewModel(application: Application) : AndroidViewModel(applicatio
             } catch (e: Exception) {
                 _status.value = MediaLoadingStatus.ERROR
             }
+        }
+    }
+
+    fun searchMedia(searchText: String) {
+        viewModelScope.launch {
+            val res = repository.searchMedia(searchText)
+             _searchedMediaItemList.value = res
         }
     }
 
