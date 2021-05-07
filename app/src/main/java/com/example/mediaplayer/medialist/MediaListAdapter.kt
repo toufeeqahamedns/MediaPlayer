@@ -2,12 +2,13 @@ package com.example.mediaplayer.medialist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mediaplayer.data.MediaStore
+import com.example.mediaplayer.repository.MediaItem
 import com.example.mediaplayer.databinding.MediaViewItemBinding
 
-class MediaListAdapter : ListAdapter<MediaStore, MediaViewHolder>(MediaStore.DiffCallback) {
+class MediaListAdapter : ListAdapter<MediaItem, MediaViewHolder>(MediaItem.DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaViewHolder {
         return MediaViewHolder(MediaViewItemBinding.inflate(LayoutInflater.from(parent.context)))
@@ -21,12 +22,12 @@ class MediaListAdapter : ListAdapter<MediaStore, MediaViewHolder>(MediaStore.Dif
 
 class MediaViewHolder(private val binding: MediaViewItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    fun bind(mediaItem: MediaStore) {
-        binding.mediastore = mediaItem
+    fun bind(mediaItem: MediaItem) {
+        binding.mediaItem = mediaItem
         binding.executePendingBindings()
     }
 }
 
-class OnClickListener(val clickListener: (mediaItem: MediaStore) -> Unit) {
-    fun onClick(mediaItem: MediaStore) = clickListener(mediaItem)
+class OnClickListener(val clickListener: (mediaItem: MediaItem) -> Unit) {
+    fun onClick(mediaItem: MediaItem) = clickListener(mediaItem)
 }

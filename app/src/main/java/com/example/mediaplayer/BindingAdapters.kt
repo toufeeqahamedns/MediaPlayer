@@ -7,18 +7,19 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.mediaplayer.data.MediaStore
+import com.example.mediaplayer.repository.MediaItem
 import com.example.mediaplayer.medialist.MediaLoadingStatus
 import com.example.mediaplayer.medialist.MediaListAdapter
 
 @BindingAdapter("listData")
-fun bindRecyclerView(recyclerView: RecyclerView, data: List<MediaStore>?) {
+fun bindRecyclerView(recyclerView: RecyclerView, data: List<MediaItem>?) {
     val adapter = recyclerView.adapter as MediaListAdapter
     adapter.submitList(data)
 }
 
 @BindingAdapter("imageUrl")
-fun bindImage(imgView: ImageView, imgUri: Uri?) {
+fun bindImage(imgView: ImageView, imgUrl: String?) {
+    val imgUri = imgUrl?.let { Uri.parse(it) }
     imgUri?.let {
         Glide.with(imgView.context)
             .load(imgUri)

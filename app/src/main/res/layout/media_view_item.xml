@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="mediastore"
-            type="com.example.mediaplayer.data.MediaStore" />
+            name="mediaItem"
+            type="com.example.mediaplayer.repository.MediaItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,13 +15,13 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/mars_image"
+            android:id="@+id/media_thumbnail"
             android:layout_width="match_parent"
             android:layout_height="170dp"
             android:adjustViewBounds="true"
             android:padding="2dp"
             android:scaleType="centerCrop"
-            app:imageUrl="@{mediastore.contentUri}"
+            app:imageUrl="@{mediaItem.contentUri}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -32,12 +32,15 @@
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:text="@{mediastore.displayName}"
+            android:singleLine="true"
+            android:text="@{mediaItem.displayName}"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
@@ -46,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="@{mediastore.dateAdded.toString()}"
+            android:text="@{mediaItem.dateAdded}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

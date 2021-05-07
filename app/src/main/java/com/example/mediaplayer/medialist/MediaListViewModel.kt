@@ -12,7 +12,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.mediaplayer.data.MediaStore
+import com.example.mediaplayer.repository.MediaItem
+import com.example.mediaplayer.repository.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,11 +27,11 @@ enum class MediaLoadingStatus { LOADING, ERROR, DONE }
 
 class MediaListViewModel(application: Application) : AndroidViewModel(application) {
 
+    private val repository = Repository(application)
+
     private var contentObserver: ContentObserver? = null
 
-    private val _mediaList = MutableLiveData<List<MediaStore>>()
-    val mediaList: LiveData<List<MediaStore>>
-        get() = _mediaList
+    val mediaItemList = repository.savedMedia
 
     private val _status = MutableLiveData<MediaLoadingStatus>()
     val status: LiveData<MediaLoadingStatus>
@@ -40,8 +41,7 @@ class MediaListViewModel(application: Application) : AndroidViewModel(applicatio
         viewModelScope.launch {
             try {
                 _status.value = MediaLoadingStatus.LOADING
-                val imageList = queryImages()
-                _mediaList.value = imageList
+                queryImages()
                 _status.value = MediaLoadingStatus.DONE
 
                 if (contentObserver == null) {
@@ -54,13 +54,11 @@ class MediaListViewModel(application: Application) : AndroidViewModel(applicatio
                 }
             } catch (e: Exception) {
                 _status.value = MediaLoadingStatus.ERROR
-                _mediaList.value = ArrayList()
             }
         }
     }
 
-    private suspend fun queryImages(): List<MediaStore> {
-        val images = mutableListOf<MediaStore>()
+    private suspend fun queryImages() {
 
         withContext(Dispatchers.IO) {
 
@@ -108,22 +106,19 @@ class MediaListViewModel(application: Application) : AndroidViewModel(applicatio
                         id
                     )
 
-                    val image = MediaStore(
+                    val mediaItem = MediaItem(
                         id,
                         displayName,
                         SimpleDateFormat("MM-dd-yyyy").format(dateModified),
-                        contentUri
+                        contentUri.toString()
                     )
-                    images += image
+                    repository.saveMediaItem(mediaItem)
 
                     // For debugging, we'll output the image objects we create to logcat.
-                    Log.v(TAG, "Added image: $image")
+                    Log.v(TAG, "Added image: $mediaItem")
                 }
             }
         }
-
-        Log.v(TAG, "Found ${images.size} images")
-        return images
     }
 
     @SuppressLint("SimpleDateFormat")
