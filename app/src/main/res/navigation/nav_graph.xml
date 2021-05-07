@@ -7,5 +7,20 @@
     <fragment
         android:id="@+id/mediaListFragment"
         android:name="com.example.mediaplayer.medialist.MediaListFragment"
-        android:label="MediaListFragment" />
+        android:label="MediaListFragment">
+        <action
+            android:id="@+id/action_mediaListFragment_to_mediaPlayerFragment2"
+            app:destination="@id/mediaPlayerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mediaPlayerFragment"
+        android:name="com.example.mediaplayer.player.MediaPlayerFragment"
+        android:label="MediaPlayerFragment">
+        <argument
+            android:name="mediaItemPosition"
+            app:argType="integer" />
+        <argument
+            android:name="mediaItemList"
+            app:argType="com.example.mediaplayer.repository.models.MediaItemList" />
+    </fragment>
 </navigation>

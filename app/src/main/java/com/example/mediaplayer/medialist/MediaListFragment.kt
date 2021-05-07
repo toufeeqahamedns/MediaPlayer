@@ -10,8 +10,10 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.mediaplayer.databinding.FragmentMediaListBinding
+import com.example.mediaplayer.repository.models.MediaItemList
 import com.google.android.material.snackbar.Snackbar
 
 private const val READ_EXTERNAL_STORAGE_REQUEST = 1000
@@ -38,7 +40,14 @@ class MediaListFragment : Fragment() {
 
         binding.viewModel = viewModel
 
-        val adapter = MediaListAdapter()
+        val adapter = MediaListAdapter(OnClickListener { position ->
+            findNavController().navigate(
+                MediaListFragmentDirections.actionMediaListFragmentToMediaPlayerFragment2(
+                    position,
+                    MediaItemList(viewModel.mediaItemList.value)
+                )
+            )
+        })
 
         binding.mediaGrid.also { view ->
             val orientation = resources.configuration.orientation

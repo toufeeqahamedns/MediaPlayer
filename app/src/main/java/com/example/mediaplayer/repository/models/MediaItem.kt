@@ -1,4 +1,4 @@
-package com.example.mediaplayer.repository
+package com.example.mediaplayer.repository.models
 
 import androidx.recyclerview.widget.DiffUtil
 import androidx.room.Entity

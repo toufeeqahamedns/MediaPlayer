@@ -7,7 +7,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.mediaplayer.repository.MediaItem
+import com.example.mediaplayer.repository.models.MediaItem
 import com.example.mediaplayer.medialist.MediaLoadingStatus
 import com.example.mediaplayer.medialist.MediaListAdapter
 

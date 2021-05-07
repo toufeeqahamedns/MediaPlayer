@@ -12,7 +12,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.mediaplayer.repository.MediaItem
+import com.example.mediaplayer.repository.models.MediaItem
 import com.example.mediaplayer.repository.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

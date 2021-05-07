@@ -3,6 +3,7 @@ package com.example.mediaplayer.repository
 import android.app.Application
 import com.example.mediaplayer.database.MediaDao
 import com.example.mediaplayer.database.MediaDatabase
+import com.example.mediaplayer.repository.models.MediaItem
 
 class Repository(application: Application) {
 
