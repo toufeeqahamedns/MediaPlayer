@@ -4,14 +4,14 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
+import com.example.mediaplayer.R
 import com.example.mediaplayer.databinding.FragmentMediaPlayerBinding
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ui.PlayerView
+import kotlin.properties.Delegates
 
 
 private const val TAG = "MediaPlayerFragment"
@@ -26,6 +26,7 @@ class MediaPlayerFragment : Fragment() {
     private lateinit var binding: FragmentMediaPlayerBinding
     private lateinit var playerView: PlayerView
     private lateinit var arguments: MediaPlayerFragmentArgs
+    private var playerVolume by Delegates.notNull<Float>()
 
     private var player: SimpleExoPlayer? = null
 
@@ -43,7 +44,24 @@ class MediaPlayerFragment : Fragment() {
 
         Log.d(TAG, "${arguments.mediaItemPosition} ${arguments.mediaItemList}")
 
+        setHasOptionsMenu(true)
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.mute_unmute, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.title == "Mute") {
+            player?.volume = 0f
+            item.title = "Unmute"
+        } else {
+            player?.volume = playerVolume
+            item.title = "Mute"
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onStart() {
@@ -77,6 +95,7 @@ class MediaPlayerFragment : Fragment() {
     private fun initializePlayer() {
         player = SimpleExoPlayer.Builder(this.requireContext()).build()
         playerView.player = player
+        playerVolume = player?.volume!!
 
         for (mediaItemFromList in arguments.mediaItemList.mediaItemList!!) {
             val secondMediaItem = MediaItem.fromUri(Uri.parse(mediaItemFromList.contentUri))
@@ -85,9 +104,9 @@ class MediaPlayerFragment : Fragment() {
 
         currentWindow = arguments.mediaItemPosition
 
-        player!!.playWhenReady = playWhenReady;
-        player!!.seekTo(currentWindow, playbackPosition);
-        player!!.prepare();
+        player!!.playWhenReady = playWhenReady
+        player!!.seekTo(currentWindow, playbackPosition)
+        player!!.prepare()
     }
 
     private fun releasePlayer() {

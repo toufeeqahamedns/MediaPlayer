@@ -1,7 +1,6 @@
 package com.example.mediaplayer.repository.models
 
 import android.os.Parcelable
-import com.example.mediaplayer.repository.models.MediaItem
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue
 

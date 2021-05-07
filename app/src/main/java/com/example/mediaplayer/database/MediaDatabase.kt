@@ -1,7 +1,9 @@
 package com.example.mediaplayer.database
 
 import android.content.Context
-import androidx.room.*
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.example.mediaplayer.repository.models.MediaItem
 
 @Database(entities = [MediaItem::class], version = 1, exportSchema = false)

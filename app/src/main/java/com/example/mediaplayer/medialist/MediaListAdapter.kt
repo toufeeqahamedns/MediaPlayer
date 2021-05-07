@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mediaplayer.databinding.MediaViewItemBinding
 import com.example.mediaplayer.repository.models.MediaItem
 
-class MediaListAdapter(private val clickListener: OnClickListener) : ListAdapter<MediaItem, MediaViewHolder>(
-    MediaItem.DiffCallback) {
+class MediaListAdapter(private val clickListener: OnClickListener) :
+    ListAdapter<MediaItem, MediaViewHolder>(
+        MediaItem.DiffCallback
+    ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaViewHolder {
         return MediaViewHolder(MediaViewItemBinding.inflate(LayoutInflater.from(parent.context)))

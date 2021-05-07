@@ -8,7 +8,10 @@ import android.database.ContentObserver
 import android.net.Uri
 import android.os.Handler
 import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.mediaplayer.repository.Repository
 import com.example.mediaplayer.repository.models.MediaItem
 import kotlinx.coroutines.Dispatchers
@@ -61,8 +64,7 @@ class MediaListViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun searchMedia(searchText: String) {
         viewModelScope.launch {
-            val res = repository.searchMedia(searchText)
-             _searchedMediaItemList.value = res
+            _searchedMediaItemList.value = repository.searchMedia(searchText)
         }
     }
 
