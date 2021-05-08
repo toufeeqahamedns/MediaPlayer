@@ -51,7 +51,7 @@ class MediaListFragment : Fragment() {
             findNavController().navigate(
                 MediaListFragmentDirections.actionMediaListFragmentToMediaPlayerFragment2(
                     position,
-                    MediaItemList(viewModel.mediaItemList.value)
+                    MediaItemList(adapter.currentList)
                 )
             )
         })
